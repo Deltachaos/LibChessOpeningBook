@@ -26,5 +26,5 @@ jobs:
           test -n "$zipfile"
           rm -rf "${RUNNER_TEMP}/pkg"
           unzip -q "$zipfile" -d "${RUNNER_TEMP}/pkg"
-          cd "${RUNNER_TEMP}/pkg/LibChessMultiplayer"
+          cd "${RUNNER_TEMP}/pkg/LibChessOpeningBook"
           lua5.1 Libs/LibUnitWow/run.lua
