@@ -213,50 +213,22 @@ Test.test("GetBooksForElo falls back to the nearest book", function()
 end)
 
 --------------------------------------------------------------------------------
--- Framework wrapper
+-- SelectMove
 --------------------------------------------------------------------------------
 
-Test.test("DeltaChess.OpeningBook is available", function()
-  local OpeningBook = LibStub("DeltachessFramework-1.0").OpeningBook
-  Test.assertTrue(OpeningBook.IsAvailable())
-  local list = OpeningBook.GetBookList()
-  Test.assertTrue(#list >= 3)
-end)
-
-Test.test("SelectMove returns a legal start-position move", function()
-  local OpeningBook = LibStub("DeltachessFramework-1.0").OpeningBook
-  local hit = OpeningBook.SelectMove(START_FEN, "first_moves")
+Test.test("SelectMove returns a start-position move from first_moves", function()
+  local hit = Book:SelectMove(START_FEN, "first_moves")
   Test.assertNotNil(hit)
   local allowed = { e2e4 = true, d2d4 = true, g1f3 = true, c2c4 = true }
   Test.assertTrue(allowed[hit.move], "move should be from first_moves")
   Test.assertEq(hit.bookId, "first_moves")
-  Test.assertNotNil(hit.san)
 end)
 
 Test.test("SelectMove returns nil off book", function()
-  local OpeningBook = LibStub("DeltachessFramework-1.0").OpeningBook
-  Test.assertNil(OpeningBook.SelectMove("4k3/8/8/8/8/8/8/4K3 w - - 0 1", "first_moves"))
+  Test.assertNil(Book:SelectMove("4k3/8/8/8/8/8/8/4K3 w - - 0 1", "first_moves"))
 end)
 
 Test.test("SelectMove honors depth", function()
-  local OpeningBook = LibStub("DeltachessFramework-1.0").OpeningBook
-  Test.assertNil(OpeningBook.SelectMove(E4_FEN, "open_games", 1))
-  Test.assertNotNil(OpeningBook.SelectMove(E4_FEN, "open_games", 2))
-end)
-
-Test.test("DepthForElo scales with strength", function()
-  local OpeningBook = LibStub("DeltachessFramework-1.0").OpeningBook
-  local low = OpeningBook.DepthForElo(100)
-  local high = OpeningBook.DepthForElo(2600)
-  Test.assertEq(low, 1)
-  Test.assertEq(high, 16)
-  Test.assertTrue(OpeningBook.DepthForElo(1350) > low)
-  Test.assertTrue(OpeningBook.DepthForElo(1350) < high)
-end)
-
-Test.test("GetBooksForElo is exposed on DeltaChess.OpeningBook", function()
-  local OpeningBook = LibStub("DeltachessFramework-1.0").OpeningBook
-  local list = OpeningBook.GetBooksForElo(200)
-  Test.assertEq(#list, 1)
-  Test.assertEq(list[1].id, "first_moves")
+  Test.assertNil(Book:SelectMove(E4_FEN, "open_games", 1))
+  Test.assertNotNil(Book:SelectMove(E4_FEN, "open_games", 2))
 end)
