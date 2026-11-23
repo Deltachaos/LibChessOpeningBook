@@ -1,0 +1,11 @@
+## Interface: 11508, 11509, 16001, 20506, 30405, 38002, 40402, 50504, 120100, 120105, 120107
+## Title: LibChessOpeningBook
+## Notes: Lua chess opening books with Polyglot hashing
+## Author: Deltachaos
+## Version: 1.0.0
+## OptionalDeps: LibStub
+
+LibChessOpeningBook.lua
+books/FirstMoves.lua
+books/OpenGames.lua
+books/ClosedGames.lua
